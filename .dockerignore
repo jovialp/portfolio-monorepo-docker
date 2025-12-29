@@ -1,0 +1,35 @@
+# Dependencies
+node_modules
+**/node_modules
+
+# Next.js
+.next
+**/.next
+
+# Turbo
+.turbo
+**/.turbo
+
+# Logs
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Git
+.git
+.gitignore
+
+# Docker
+docker-compose.override.yml
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# CMS uploads (optional, local only)
+apps/cms/media
+
+# Env files (never bake secrets)
+.env
+.env.*

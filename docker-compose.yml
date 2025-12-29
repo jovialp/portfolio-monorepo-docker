@@ -1,0 +1,50 @@
+services:
+  mongo:
+    image: mongo:7
+    container_name: mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    # Add a healthcheck so other services wait until Mongo is actually ready
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  cms:
+    container_name: cms
+    build:
+      context: .
+      dockerfile: ./apps/cms/Dockerfile
+      # Ensure you pass arguments if your Dockerfile uses them
+    # restart: unless-stopped
+    env_file:
+      - ./apps/cms/.env
+    environment:
+      - DATABASE_URL=mongodb://mongo:27017/your_db_name # Use 'mongo' service name
+    depends_on:
+      mongo:
+        condition: service_healthy
+    ports:
+      - "3001:3001"
+
+  web:
+    container_name: web
+    build:
+      context: .
+      dockerfile: ./apps/web/Dockerfile
+    # restart: unless-stopped
+    env_file:
+      - ./apps/web/.env
+    environment:
+      - PAYLOAD_API_URL=http://cms:3001 # Use 'cms' service name
+    depends_on:
+      - cms
+    ports:
+      - "3000:3000"
+
+volumes:
+  mongo-data:
