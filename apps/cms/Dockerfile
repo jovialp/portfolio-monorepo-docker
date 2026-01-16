@@ -43,7 +43,7 @@ COPY --from=builder --chown=nextjs:nodejs /app/apps/cms/.next/static ./apps/cms/
 
 USER nextjs
 EXPOSE 3001
-ENV PORT 3001
+ENV PORT=3001
 
 # Start the CMS
 CMD ["node", "apps/cms/server.js"]

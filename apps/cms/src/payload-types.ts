@@ -70,6 +70,7 @@ export interface Config {
     users: User;
     media: Media;
     projects: Project;
+    'architecture-sections': ArchitectureSection;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -80,6 +81,7 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
+    'architecture-sections': ArchitectureSectionsSelect<false> | ArchitectureSectionsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -207,6 +209,24 @@ export interface Project {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "architecture-sections".
+ */
+export interface ArchitectureSection {
+  id: string;
+  title: string;
+  /**
+   * Controls section order on the page
+   */
+  order: number;
+  /**
+   * Explain your thinking clearly. No buzzwords.
+   */
+  content: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -240,6 +260,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'projects';
         value: string | Project;
+      } | null)
+    | ({
+        relationTo: 'architecture-sections';
+        value: string | ArchitectureSection;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -347,6 +371,17 @@ export interface ProjectsSelect<T extends boolean = true> {
       };
   aiUsage?: T;
   productionNotes?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "architecture-sections_select".
+ */
+export interface ArchitectureSectionsSelect<T extends boolean = true> {
+  title?: T;
+  order?: T;
+  content?: T;
   updatedAt?: T;
   createdAt?: T;
 }

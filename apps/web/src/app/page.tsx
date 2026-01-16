@@ -1,24 +1,18 @@
-import { fetchProjects } from "@/lib/payload";
+import Link from "next/link";
+import { fetchProjects } from "@/lib/project";
+import { fetchHomePage } from "@/lib/home-page";
+import { Hero } from "@/components/Hero";
+import { ProjectPreview } from "@/components/ProjectPreview";
 
 export default async function HomePage() {
   const projects = await fetchProjects();
+  const homePageData = await fetchHomePage();
 
   return (
     <>
-      <h1>Senior Software Engineer — Architecture & AI-forward</h1>
+      <Hero data={homePageData.hero} />
 
-      <section>
-        <h2>Projects</h2>
-
-        <ul>
-          {projects.map((project) => (
-            <li key={project.id}>
-              <strong>{project.title}</strong>
-              <p>{project.summary}</p>
-            </li>
-          ))}
-        </ul>
-      </section>
+      <ProjectPreview projects={projects} />
     </>
   );
 }

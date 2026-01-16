@@ -44,7 +44,7 @@ COPY --from=builder --chown=nextjs:nodejs /app/apps/web/public ./apps/web/public
 
 USER nextjs
 EXPOSE 3000
-ENV PORT 3000
+ENV PORT=3000
 
 # Next.js standalone output creates a server.js file
 CMD ["node", "apps/web/server.js"]
